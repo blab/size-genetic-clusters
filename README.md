@@ -15,6 +15,10 @@ This repository contains code and data associated with the above paper.
 
 ### Exploring the size distribution of clusters of identical sequences
 
+In the script **explore_distribution_cluster_identical_sequences.R**, we investigate how epidemiological and evolutionary parameters influence the size distribution of clusters of identical pathogen sequences.
+
+In the script **contribution_largest_transmission_event.R**, we perform a simulation study to understand how much the largest transmission event (within a cluster of identical sequences) contributes to the size of this cluster of identical sequence. 
+
 ### Simulation study evaluating our statistical framework
 
 ### Application to real data
