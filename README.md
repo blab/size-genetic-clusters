@@ -11,4 +11,12 @@ xxx
 
 ## Overview
 
-This repository contains code and data associated with the above paper. 
+This repository contains code and data associated with the above paper.
+
+### Exploring the size distribution of clusters of identical sequences
+
+### Simulation study evaluating our statistical framework
+
+### Application to real data
+
+### Monitoring changes in variants' transmission characteristics
