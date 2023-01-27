@@ -3,6 +3,7 @@ source('utils_distrib.R')
 library(tidyverse)
 library(viridis)
 library(metR)
+library(RColorBrewer)
 
 ##### 1) Exploring the mean number of offsprings with identical genomes 
 # for different assumptions regarding the reproduction number R, 
@@ -44,4 +45,41 @@ plot(plt_competition_mutation_transmission)
 
 ##### 2) Cumulative distribution function  
 # for different assumptions regarding the reproduction number R, 
-# and the probability p that 
+# and the dispersion parameter k
+
+p <- 0.7
+vec_R <- c(1.0, 1.25, 1.5, 1.75, 2.0)
+vec_k <- c(0.01, 0.1, 1.)
+
+### Generating the distribution
+df_theoretical_distrib <- Reduce('bind_rows', lapply(vec_R, FUN = function(R){
+  Reduce('bind_rows', lapply(vec_k, FUN = function(k){
+    theoretical_distrib_clusters(R, k, p, max_cluster_size = max_cluster_size) %>% 
+      mutate(R = R, k = k, p = p)
+  })) 
+}))
+
+
+### Plotting the distribution
+plt_theoretical_distrib_cluster_size <- df_theoretical_distrib %>%
+  mutate(k = paste0('k = ', k)) %>%
+  ggplot(aes(x = cluster_size,
+             y = cum_prob,
+             group = interaction(k, R),
+             colour = as.factor(R))) +
+  geom_step() +
+  facet_wrap(.~ k, nrow = 1) +
+  scale_x_continuous(name = 'Size of cluster of identical sequences',
+                     breaks = c(1, seq(10, 50, 10)),
+                     expand = expansion(mult = c(0., 0.05))) +
+  scale_y_continuous(name = 'Cumulative distribution\nfunction') +
+  scale_colour_manual(name = 'R',
+                      values = RColorBrewer::brewer.pal(9, 'BuPu')[-(1:2)]) +
+  theme_bw() +
+  coord_cartesian(xlim = c(1, 50), ylim = c(0.4, 1.0)) +
+  theme(panel.grid.minor.x = element_blank(),
+        strip.background = element_rect(fill = 'gray22'),
+        strip.text = element_text(colour = 'white'),
+        panel.spacing = unit(1, 'lines'))
+
+plot(plt_theoretical_distrib_cluster_size)

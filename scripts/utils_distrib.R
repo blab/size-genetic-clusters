@@ -18,162 +18,18 @@ draw_from_binomial <- function(n, p){
 }
 
 
-
-
-
-
-
-## Function to simulate branching process using different criteria for stopping the simulation
-simulate_branching_process_until_max_cluster_size <- function(n_sim, R0, k, p, max_cluster_size){
-  # Input: 
-  # n_sim: Number of outbreaks simulated
-  # R0: Basic reproduction number
-  # k: Overdispersion parameter of the offspring distribution
-  # p: Probability that transmission occurs before mutation
-  # max_cluster_size: maximum cluster size
-  
-  df_sim <- Reduce('bind_rows', lapply(1:n_sim, FUN = function(i_sim){
-    # Initialisation
-    tot_cluster_size <- 1
-    curr_pop_size <- 1
-    i_gen <- 0
-    
-    # Run 
-    while(curr_pop_size > 0 && tot_cluster_size < max_cluster_size){
-      n_offsprings <- sum(draw_from_negbin(n_draws = curr_pop_size, mean = R0, k = k))
-      n_offspring_within_cluster <- draw_from_binomial(n = n_offsprings, p = p)
-      curr_pop_size <- n_offspring_within_cluster
-      tot_cluster_size <- tot_cluster_size + curr_pop_size
-      i_gen <- i_gen + 1
-    }
-    # Format output
-    c('i_sim' = i_sim,
-      'gen_extinction' = i_gen,
-      'tot_cluster_size' = tot_cluster_size, 
-      'curr_pop_size' = curr_pop_size)
-  }))
-  
-  # Output 
-}
-
-simulate_branching_process_until_max_generations <- function(n_sim, R0, k, p, max_generations){
-  # Input: 
-  # n_sim: Number of outbreaks simulated
-  # R0: Basic reproduction number
-  # k: Overdispersion parameter of the offspring distribution
-  # p: Probability that transmission occurs before mutation
-  # max_cluster_size: maximum cluster size
-  
-  df_sim <- Reduce('bind_rows', lapply(1:n_sim, FUN = function(i_sim){
-    # Initialisation
-    tot_cluster_size <- 1
-    curr_pop_size <- 1
-    i_gen <- 0
-    
-    # Run 
-    while(curr_pop_size > 0 && i_gen < max_generations){
-      n_offsprings <- sum(draw_from_negbin(n_draws = curr_pop_size, mean = R0, k = k))
-      n_offspring_within_cluster <- draw_from_binomial(n = n_offsprings, p = p)
-      curr_pop_size <- n_offspring_within_cluster
-      tot_cluster_size <- tot_cluster_size + curr_pop_size
-      i_gen <- i_gen + 1
-    }
-    # Format output
-    c('i_sim' = i_sim,
-      'gen_extinction' = i_gen,
-      'tot_cluster_size' = tot_cluster_size, 
-      'curr_pop_size' = curr_pop_size)
-  }))
-  
-  # Output 
-}
-
-simulate_branching_process_until_max_cluster_size_save_largest_gen <- function(n_sim, R0, k, p, max_cluster_size){
-  # Input: 
-  # n_sim: Number of outbreaks simulated
-  # R0: Basic reproduction number
-  # k: Overdispersion parameter of the offspring distribution
-  # p: Probability that transmission occurs before mutation
-  # max_cluster_size: maximum cluster size
-  
-  df_sim <- Reduce('bind_rows', lapply(1:n_sim, FUN = function(i_sim){
-    # Initialisation
-    tot_cluster_size <- 1
-    largest_gen_within_cluster <- 0
-    contribution_largest_transmission_event <- 0
-    largest_gen <- 0
-    curr_pop_size <- 1
-    i_gen <- 0
-    
-    # Run 
-    while(curr_pop_size > 0 && tot_cluster_size < max_cluster_size){
-      n_offsprings <- sum(draw_from_negbin(n_draws = curr_pop_size, mean = R0, k = k))
-      n_offspring_within_cluster <- draw_from_binomial(n = n_offsprings, p = p)
-      largest_gen_within_cluster <- max(largest_gen_within_cluster, n_offspring_within_cluster)
-      if(n_offsprings > largest_gen){
-        largest_gen <- n_offsprings
-        contribution_largest_transmission_event <- n_offspring_within_cluster
-      }
-      
-      curr_pop_size <- n_offspring_within_cluster
-      tot_cluster_size <- tot_cluster_size + curr_pop_size
-      i_gen <- i_gen + 1
-    }
-    # Format output
-    c('i_sim' = i_sim,
-      'gen_extinction' = i_gen,
-      'largest_gen' = largest_gen_within_cluster,
-      'contrib_largest_transmission_event' = contribution_largest_transmission_event,
-      'tot_cluster_size' = tot_cluster_size, 
-      'curr_pop_size' = curr_pop_size)
-  }))
-  
-  # Output 
-  return(df_sim)
-}
-
-simulate_branching_process_until_max_cluster_size_change_specific_gen <- function(n_sim, R0, R0_prime,
-                                                                                  gen_change_R, 
-                                                                                  k, p, max_cluster_size){
-  # Input: 
-  # n_sim: Number of outbreaks simulated
-  # R0: Basic reproduction number
-  # k: Overdispersion parameter of the offspring distribution
-  # p: Probability that transmission occurs before mutation
-  # max_cluster_size: maximum cluster size
-  
-  df_sim <- Reduce('bind_rows', lapply(1:n_sim, FUN = function(i_sim){
-    # Initialisation
-    tot_cluster_size <- 1
-    curr_pop_size <- 1
-    i_gen <- 0
-    
-    # Run 
-    while(curr_pop_size > 0 && tot_cluster_size < max_cluster_size){
-      curr_R0 <- ifelse(i_gen >= gen_change_R, R0_prime, R0)
-      n_offsprings <- sum(draw_from_negbin(n_draws = curr_pop_size, mean = curr_R0, k = k))
-      n_offspring_within_cluster <- draw_from_binomial(n = n_offsprings, p = p)
-      curr_pop_size <- n_offspring_within_cluster
-      tot_cluster_size <- tot_cluster_size + curr_pop_size
-      i_gen <- i_gen + 1
-    }
-    # Format output
-    c('i_sim' = i_sim,
-      'gen_extinction' = i_gen,
-      'tot_cluster_size' = tot_cluster_size, 
-      'curr_pop_size' = curr_pop_size)
-  }))
-  
-  # Output 
-}
-
-
 ## Function to compute the theoretical distribution for the size of clusters
-theoretical_distrib_clusters <- function(R0, k, p, max_cluster_size){
+theoretical_distrib_clusters <- function(R, k, p, max_cluster_size){
+  ## Input:
+  ## R: the reproduction number
+  ## k: the dispersion parameter
+  ## p: the probability that transmission occurs before mutation
+  ## max_cluster_size: the maximum size of cluster for which the distribution is computed
+  
   vec_j <- 1:max_cluster_size
   vec_rj <- sapply(vec_j, FUN = function(j){
     exp(lgamma(k*j + j - 1) - lgamma(k*j) - lgamma(j + 1)) *
-      (p*R0/k)^(j -1) / exp((k*j + j  - 1)* log(1+p*R0/k) )
+      (p*R/k)^(j -1) / exp((k*j + j  - 1)* log(1+p*R/k) )
   })
   
   
@@ -181,4 +37,6 @@ theoretical_distrib_clusters <- function(R0, k, p, max_cluster_size){
                 prob = vec_rj,
                 cum_prob = cumsum(vec_rj)))
 }
+
+
 
