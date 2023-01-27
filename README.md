@@ -21,6 +21,10 @@ In the script **contribution_largest_transmission_event.R**, we perform a simula
 
 ### Simulation study evaluating our statistical framework
 
+### Empirical approximation of the probability that transmission occurs before mutation
+
+The script **draw_proba_transmission_before_mutation.R** reproduces the simulation approach developped in the paper to estimate the probability that a transmission event occurs before a mutation event for different pathogens. 
+
 ### Application to real data
 
 The following scripts can be used to reproduce the analysis of:
