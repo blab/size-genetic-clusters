@@ -48,7 +48,7 @@ plot(plt_competition_mutation_transmission)
 # and the dispersion parameter k
 
 p <- 0.7
-vec_R <- c(1.0, 1.25, 1.5, 1.75, 2.0)
+vec_R <- seq(0.5, 2.0, 0.5)
 vec_k <- c(0.01, 0.1, 1.)
 
 ### Generating the distribution
@@ -74,12 +74,15 @@ plt_theoretical_distrib_cluster_size <- df_theoretical_distrib %>%
                      expand = expansion(mult = c(0., 0.05))) +
   scale_y_continuous(name = 'Cumulative distribution\nfunction') +
   scale_colour_manual(name = 'R',
-                      values = RColorBrewer::brewer.pal(9, 'BuPu')[-(1:2)]) +
+                      breaks = seq(0.5, 2.0, 0.5),
+                      labels = c('0.5', '1.0', '1.5', '2.0'),
+                      values = RColorBrewer::brewer.pal(5, 'BuPu')[-1]) +
   theme_bw() +
-  coord_cartesian(xlim = c(1, 50), ylim = c(0.4, 1.0)) +
+  coord_cartesian(xlim = c(1, 50), ylim = c(0.0, 1.0)) +
   theme(panel.grid.minor.x = element_blank(),
         strip.background = element_rect(fill = 'gray22'),
         strip.text = element_text(colour = 'white'),
         panel.spacing = unit(1, 'lines'))
 
 plot(plt_theoretical_distrib_cluster_size)
+
