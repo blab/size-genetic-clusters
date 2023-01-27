@@ -19,4 +19,12 @@ This repository contains code and data associated with the above paper.
 
 ### Application to real data
 
+The following scripts can be used to reproduce the analysis of:
+- MERS sequences (**mers.R**)
+- Measles sequences from the 2017-2018 Italian outbreak in the Veneto province (**measles.R**)
+- SARS-CoV-2 sequences in New-Zealand  (**ncov_NZ.R**)
+
+These scripts only use as input the distribution of clusters of identical sequences. To access the raw data, please refer yourself to the references indicated in the manuscript. To facilitate the application of this method to other datasets, we provide the code developped to generate the size distribution of clusters of identical sequences from an alignment (**get_cluster_distrib_from_fasta.R**). The use of this code is illustrated for an arbitrary fasta file.  
+
+
 ### Monitoring changes in variants' transmission characteristics
