@@ -1,5 +1,6 @@
 library(doParallel)
 library(foreach)
+library(tidyverse)
 
 source('utils_inference.R')
 source('utils_cluster_alloc.R')
