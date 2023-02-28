@@ -1,15 +1,15 @@
 library(tidyverse)
 library(ggpubr)
 
-source('utils_plot_inference.R')
+#source('utils_plot_inference.R')
 source('utils_cluster_alloc.R')
 
 ## MERS input files
-output_file_likelihood_CI_mers <- '../results/mers/df_CI_max_cluster_size_10000.rds'
+output_file_likelihood_CI_mers <- '../results/mers/df_inference_10000.rds'
 file_cluster_alloc_mers <- '../data/mers/cluster_alloc_mers.rds'
 
 ## Measles input files
-output_file_likelihood_CI_measles <- '../results/measles/df_CI_max_cluster_size_10000.rds'
+output_file_likelihood_CI_measles <- '../results/measles/df_inference_pacenti_10000.rds'
 file_cluster_alloc_measles <- '../data/measles/cluster_alloc_measles_pacenti.rds'
 
 ## Loading files
@@ -18,7 +18,6 @@ df_CI_mers <- readRDS(output_file_likelihood_CI_mers)
 
 cluster_alloc_measles <- readRDS(file_cluster_alloc_measles)
 df_CI_measles <- readRDS(output_file_likelihood_CI_measles)
-
 
 col_MERS <- 'firebrick'
 col_measles <- '#669d1c'
@@ -35,8 +34,7 @@ plt_R_mers <- df_CI_mers %>%
   geom_rect(aes(xmin = -Inf, xmax = Inf, ymin = 0.29, ymax = 0.8),
             alpha = 0.2, fill = 'gray22') +
   geom_point(col = col_MERS) +
-  geom_linerange(aes(ymin = lower_95, ymax = upper_95), col = col_MERS, linetype = 'dotted') +
-  geom_linerange(aes(ymin = lower_50, ymax = upper_50), col = col_MERS) +
+  geom_linerange(aes(ymin = lower_95, ymax = upper_95), col = col_MERS) +
   scale_y_continuous(limits = c(0., 1.0),
                      name = 'R estimate',
                      expand = expansion(mult = c(0., 0.1))) +
@@ -55,8 +53,7 @@ plt_k_mers <- df_CI_mers %>%
             alpha = 0.2, fill = 'gray22') +
   theme_bw() +
   geom_point(col = col_MERS) +
-  geom_linerange(aes(ymin = lower_95, ymax = upper_95), col = col_MERS, linetype = 'dotted') +
-  geom_linerange(aes(ymin = lower_50, ymax = upper_50), col = col_MERS) +
+  geom_linerange(aes(ymin = lower_95, ymax = upper_95), col = col_MERS) +
   scale_y_continuous(trans = 'log',
                      name = 'k estimate',
                      breaks = c(seq(0.001, 0.009, 0.001), seq(0.01, 0.09, 0.01),
@@ -79,8 +76,7 @@ plt_R_measles <- df_CI_measles %>%
   ggplot(aes(x = as.factor(obs_process), y = mle_estim))+
   theme_bw() +
   geom_point(col = col_measles) +
-  geom_linerange(aes(ymin = lower_95, ymax = upper_95), col = col_measles, linetype = 'dotted') +
-  geom_linerange(aes(ymin = lower_50, ymax = upper_50), col = col_measles) +
+  geom_linerange(aes(ymin = lower_95, ymax = upper_95), col = col_measles) +
   scale_y_continuous(limits = c(0., NA),
                      breaks = seq(0.0, 1.6, 0.2),
                      name = 'R estimate',
@@ -97,8 +93,7 @@ plt_k_measles <- df_CI_measles %>%
   ggplot(aes(x = as.factor(obs_process), y = mle_estim)) +
   theme_bw() +
   geom_point(col = col_measles) +
-  geom_linerange(aes(ymin = lower_95, ymax = upper_95), col = col_measles, linetype = 'dotted') +
-  geom_linerange(aes(ymin = lower_50, ymax = upper_50), col = col_measles) +
+  geom_linerange(aes(ymin = lower_95, ymax = upper_95), col = col_measles) +
   scale_y_continuous(trans = 'log',
                      name = 'k estimate',
                      breaks = c(seq(0.001, 0.009, 0.001),
@@ -132,15 +127,14 @@ plot(plt_mers_measles)
 
 ########## Check the sensitivity of our estimates to the maximum cluster size threshold c_max used in the inference
 ##### -> No impact here. 
-
 vec_max_cluster_size_inference <- c('10000', '50000', '1e+05')
 df_CI_mers <- Reduce('bind_rows', lapply(vec_max_cluster_size_inference, FUN = function(max_cluster_size_inference){
-  output_file_likelihood_CI_mers <- paste0('../results/mers/df_CI_max_cluster_size_', max_cluster_size_inference, '.rds')
+  output_file_likelihood_CI_mers <- paste0('../results/mers/df_inference_', max_cluster_size_inference, '.rds')
   readRDS(output_file_likelihood_CI_mers) %>% 
     mutate(max_cluster_size_inference = max_cluster_size_inference)
 }))
 df_CI_measles <- Reduce('bind_rows', lapply(vec_max_cluster_size_inference, FUN = function(max_cluster_size_inference){
-  output_file_likelihood_CI_measles <- paste0('../results/measles/df_CI_max_cluster_size_', max_cluster_size_inference, '.rds')
+  output_file_likelihood_CI_measles <- paste0('../results/measles/df_inference_pacenti_', max_cluster_size_inference, '.rds')
   readRDS(output_file_likelihood_CI_measles) %>% 
     mutate(max_cluster_size_inference = max_cluster_size_inference)
 }))

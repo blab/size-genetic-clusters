@@ -249,3 +249,41 @@ get_profile_likelihood_CI_multiple_params <- function(df_grid,
   return(df_all_CI)
 }
 
+
+##########
+get_CI <- function(i_param,
+                   minus_log_lik, mle_estim,
+                   param_min = 0.01, param_max = 10.0, increment_param = 0.01){
+  
+  chisq_stat_95 <- qchisq(0.95, df = 1)
+  chisq_stat_90 <- qchisq(0.90, df = 1)
+  chisq_stat_50 <- qchisq(0.50, df = 1)
+  
+  vec_param <- seq(param_min, param_max, increment_param)
+  
+  mle_param <- mle_estim$par
+  
+  ## Log-likelihood profile
+  vec_log_lik <- sapply(vec_param, FUN = function(curr_param){
+    mle_param[i_param] <- curr_param
+    - minus_log_lik(mle_param)
+  })
+  
+  ## Likelihood ratio
+  vec_LR <- 2 * (- mle_estim$value - vec_log_lik)
+  
+  param_within_95 <- vec_param[vec_LR < chisq_stat_95]
+  param_within_90 <- vec_param[vec_LR < chisq_stat_90]
+  param_within_50 <- vec_param[vec_LR < chisq_stat_50]
+  
+  return(
+    c('lower_95' = min(param_within_95),
+      'upper_95' = max(param_within_95),
+      'lower_90' = min(param_within_90),
+      'upper_90' = max(param_within_90),
+      'lower_50' = min(param_within_50),
+      'upper_50' = max(param_within_50))
+  )
+  
+  
+}
