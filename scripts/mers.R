@@ -34,58 +34,47 @@ cl <- makeForkCluster(n_cores)
 registerDoParallel(cl)
 
 t0 <- Sys.time()
-df_grid_indep_obs <- Reduce('bind_rows',
-                            foreach(i_p_detect = 1:length(vec_p_detect_cases),
-                                    .packages = c('tidyverse')) %dopar% {
-                                      
-                                      ## Define the function to minimize
-                                      minus_log_lik <- function(param){
-                                        R <- param[1]
-                                        k <- param[2]
-                                        
-                                        ll <- get_loglik_obs(vec_cluster_size = cluster_alloc$df_size_distrib$cluster_size,
-                                                             vec_n_clusters = cluster_alloc$df_size_distrib$count,
-                                                             R = R, k = k,
-                                                             p = p_trans_before_mut,
-                                                             p_detect = vec_p_detect_cases[i_p_detect] * prop_cases_sequenced, 
-                                                             max_cluster_size = max_cluster_size_inference)
-                                        
-                                        
-                                        return(-ll)
-                                      }
-                                      
-                                      mle_estim <- optim(par = c(1.0, 0.1),
-                                                         fn = minus_log_lik,
-                                                         method = 'L-BFGS-B',
-                                                         lower = c(R_min, k_min), upper = c(R_max, k_max))
-                                      
-                                      CI_R <- get_CI(1, minus_log_lik, mle_estim,
-                                                     param_min = R_min, param_max = R_max,
-                                                     increment_param = 0.01)
-                                      CI_k <- get_CI(2, minus_log_lik, mle_estim,
-                                                     param_min = k_min, param_max = k_max,
-                                                     increment_param = 0.001)
-                                      
-                                      bind_cols(tibble(mle_estim = mle_estim$par,
-                                                       param = c('R', 'k'),
-                                                       p_detect = rep(vec_p_detect_cases[i_p_detect], 2)),
-                                                bind_rows(CI_R, CI_k))
-                                      
-                                    })
+df_inference <- Reduce('bind_rows',
+                       foreach(i_p_detect = 1:length(vec_p_detect_cases),
+                               .packages = c('tidyverse')) %dopar% {
+                                 
+                                 ## Define the function to minimize
+                                 minus_log_lik <- function(param){
+                                   R <- param[1]
+                                   k <- param[2]
+                                   
+                                   ll <- get_loglik_obs(vec_cluster_size = cluster_alloc$df_size_distrib$cluster_size,
+                                                        vec_n_clusters = cluster_alloc$df_size_distrib$count,
+                                                        R = R, k = k,
+                                                        p = p_trans_before_mut,
+                                                        p_detect = vec_p_detect_cases[i_p_detect] * prop_cases_sequenced, 
+                                                        max_cluster_size = max_cluster_size_inference)
+                                   
+                                   
+                                   return(-ll)
+                                 }
+                                 
+                                 mle_estim <- optim(par = c(1.0, 0.1),
+                                                    fn = minus_log_lik,
+                                                    method = 'L-BFGS-B',
+                                                    lower = c(R_min, k_min), upper = c(R_max, k_max))
+                                 
+                                 CI_R <- get_CI(1, minus_log_lik, mle_estim,
+                                                param_min = R_min, param_max = R_max,
+                                                increment_param = 0.01)
+                                 CI_k <- get_CI(2, minus_log_lik, mle_estim,
+                                                param_min = k_min, param_max = k_max,
+                                                increment_param = 0.001)
+                                 
+                                 bind_cols(tibble(mle_estim = mle_estim$par,
+                                                  param = c('R', 'k'),
+                                                  p_detect = rep(vec_p_detect_cases[i_p_detect], 2)),
+                                           bind_rows(CI_R, CI_k))
+                                 
+                               })
 t1 <- Sys.time()
 print(t1 - t0)
 stopCluster(cl)
 
-get_CI
-
-## Getting CI from grid search
-df_CI <- Reduce('bind_rows', lapply(vec_p_detect_cases, FUN = function(curr_p_detect){
-  curr_df_grid <- df_grid_indep_obs %>%
-    filter(p_detect == curr_p_detect)
-  
-  get_profile_likelihood_CI(curr_df_grid, col_loglik = 'log_lik') %>%
-    mutate(p_detect = curr_p_detect)
-}))
-
-View(df_CI)
+print(df_inference)
 
