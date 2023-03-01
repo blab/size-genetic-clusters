@@ -23,6 +23,8 @@ In the script **contribution_largest_transmission_event.R**, we perform a simula
 
 **Unconditional on cluster extinction**
 
+The script **sim_study.R** enables for user-defined values of the reproduction number R, the dispersion parameter k, the proportion of infections sequenced and the probability that transmission occurs before mutation (i) to generate synthetic cluster data and (ii) run our inference framework on these synthetic data. The script **reproduce_sim_study_figure.R** takes as input a dataframe with the results of the extensive simulation study we performed and produces figures to compare the true and estimated parameter values. 
+
 **Conditional on cluster extinction**
 
 
