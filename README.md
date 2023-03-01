@@ -28,7 +28,7 @@ The script **sim_study.R** enables for user-defined values of the reproduction n
 **Conditional on cluster extinction**
 
 
-### Empirical approximation of the probability that transmission occurs before mutation
+### Empirical estimation of the probability that transmission occurs before mutation
 
 The script **draw_proba_transmission_before_mutation.R** reproduces the simulation approach developped in the paper to estimate the probability that a transmission event occurs before a mutation event for different pathogens. 
 
@@ -39,7 +39,7 @@ The following scripts can be used to reproduce the analysis of:
 - Measles sequences from the 2017-2018 Italian outbreak in the Veneto province (**measles.R**)
 - SARS-CoV-2 sequences in New-Zealand  (**ncov_NZ.R**)
 
-These scripts only use as input the distribution of clusters of identical sequences. To access the raw data, please refer yourself to the references indicated in the manuscript. To facilitate the application of this method to other datasets, we provide the code developped to generate the size distribution of clusters of identical sequences from an alignment (**get_cluster_distrib_from_fasta.R**). The use of this code is illustrated for an arbitrary fasta file.  
+These scripts only use as input the distribution of clusters of identical sequences. To access the raw data, please refer yourselves to the references indicated in the manuscript. To facilitate the application of this method to other datasets, we provide the code developped to generate the size distribution of clusters of identical sequences from an alignment (**get_cluster_distrib_from_fasta.R**). The use of this code is illustrated for an arbitrary fasta file.  
 
 ### Simulation study evaluating our transmission advantage statistical framework
 
