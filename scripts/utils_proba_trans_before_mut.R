@@ -1,23 +1,12 @@
-
-
-## Simulation script to empirically estimate the probability that transmission occurs before mutation
-## using n_sim simulated time to mutation and transmission
-## and assuming the generation time is exponentially distributed
-
-compute_proba_transmission_before_mutation <- function(n_sim,
-                                                       mean_GT, sd_GT,
-                                                       rate_sub_per_site_per_year, length_genome){
+compute_proba_transmission_before_mutation_rate_per_day <- function(n_sim,
+                                                                    mean_GT, sd_GT,
+                                                                    rate_sub_per_day){
+  
   ## Inputs: 
   ## n_sim: number of replicates
   ## mean_GT: mean generation time (in days)
   ## sd_GT: standard deviation of the generation time (in days)
-  ## rate_sub_per_site_per_year: rate of substitution per site per year
-  ## length_genome: genome length
-  
-  
-  ## Get the mutation rate (in /day)
-  rate_sub_per_year <- rate_sub_per_site_per_year * length_genome
-  rate_sub_per_day <- rate_sub_per_year / 365.25
+  ## rate_sub_per_day: rate of substitution per day
   
   ## Draw vector of time to mutation
   vec_time_to_mut <- rexp(n = n_sim, rate = rate_sub_per_day)
@@ -36,39 +25,6 @@ compute_proba_transmission_before_mutation <- function(n_sim,
               vec_time_to_transmission = vec_time_to_transmission,
               vec_time_to_mut = vec_time_to_mut))
 }
-
-## Same thing as above but where the substitution rate is this time expressed in subs per year
-
-compute_proba_transmission_before_mutation_rate_per_year <- function(n_sim,
-                                                                     mean_GT, sd_GT,
-                                                                     rate_sub_per_year){
-  ## Inputs: 
-  ## n_sim: number of replicates
-  ## mean_GT: mean generation time (in days)
-  ## sd_GT: standard deviation of the generation time (in days)
-  ## rate_sub_per_year: rate of substitution per year
-  
-  ## Get the mutation rate (in /day)
-  rate_sub_per_day <- rate_sub_per_year / 365.25
-  
-  ## Draw vector of time to mutation
-  vec_time_to_mut <- rexp(n = n_sim, rate = rate_sub_per_day)
-  
-  ## Define characteristics of the GT distribution (assumed Gamma)
-  alpha_GT <- (mean_GT^2) / (sd_GT)^2
-  beta_GT <- mean_GT / (sd_GT)^2
-  
-  ## Draw vector of transmission events
-  vec_time_to_transmission <- rgamma(n = n_sim, shape = alpha_GT, rate = beta_GT)
-  
-  ## Empirical probability that transmission occurs before mutation
-  p_trans_before_mut <- sum(vec_time_to_transmission < vec_time_to_mut) / n_sim
-  
-  return(list(p_trans_before_mut = p_trans_before_mut,
-              vec_time_to_transmission = vec_time_to_transmission,
-              vec_time_to_mut = vec_time_to_mut))
-}
-
 
 ## Script to plot the simulated time distributions obtained with one of the above functions
 
