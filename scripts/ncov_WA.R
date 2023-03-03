@@ -187,59 +187,6 @@ df_inference <- Reduce('bind_rows', foreach(i_p_detect = 1:length(vec_p_detect_c
                 curr_log_lik_var_pre_omicron + curr_log_lik_var_post_omicron))
   }
   
-  minus_log_lik_fully_split <- function(param){
-    R_var <- param[1]
-    R_non_var <- param[2]
-    k_var <- param[3]
-    k_non_var <- param[4]
-    
-    if(nrow(df_clusters_non_var_pre_omicron) == 0){
-      curr_log_lik_non_var_pre_omicron <- 0.0
-    } else{
-      curr_log_lik_non_var_pre_omicron <- get_loglik_obs(vec_cluster_size = df_clusters_non_var_pre_omicron$n_in_same_clique,
-                                                         vec_n_clusters = df_clusters_non_var_pre_omicron$count,
-                                                         R = R_non_var, k = k_non_var,
-                                                         p = p_trans_before_mut_pre_omicron, p_detect = curr_p_detect,
-                                                         max_cluster_size = max_cluster_size_inference)
-    }
-    
-    if(nrow(df_clusters_non_var_post_omicron) == 0){
-      curr_log_lik_non_var_post_omicron <- 0.0
-    } else{
-      curr_log_lik_non_var_post_omicron <- get_loglik_obs(vec_cluster_size = df_clusters_non_var_post_omicron$n_in_same_clique,
-                                                          vec_n_clusters = df_clusters_non_var_post_omicron$count,
-                                                          R = R_non_var, k = k_non_var,
-                                                          p = p_trans_before_mut_post_omicron, p_detect = curr_p_detect,
-                                                          max_cluster_size = max_cluster_size_inference)
-    }
-    
-    if(nrow(df_clusters_var_pre_omicron) == 0){
-      curr_log_lik_var_pre_omicron <- 0.0
-    } else{
-      curr_log_lik_var_pre_omicron <- get_loglik_obs(vec_cluster_size = df_clusters_var_pre_omicron$n_in_same_clique,
-                                                     vec_n_clusters = df_clusters_var_pre_omicron$count,
-                                                     R = R_var, k = k_var,
-                                                     p = p_trans_before_mut_pre_omicron, p_detect = curr_p_detect,
-                                                     max_cluster_size = max_cluster_size_inference)
-      
-    }
-    
-    if(nrow(df_clusters_var_post_omicron) == 0){
-      curr_log_lik_var_post_omicron <- 0.0
-      
-    } else{
-      curr_log_lik_var_post_omicron <- get_loglik_obs(vec_cluster_size = df_clusters_var_post_omicron$n_in_same_clique,
-                                                      vec_n_clusters = df_clusters_var_post_omicron$count,
-                                                      R = R_var, k = k_var,
-                                                      p = p_trans_before_mut_post_omicron, p_detect = curr_p_detect,
-                                                      max_cluster_size = max_cluster_size_inference)
-      
-    }
-    
-    return(- (curr_log_lik_non_var_pre_omicron + curr_log_lik_non_var_post_omicron +
-                curr_log_lik_var_pre_omicron + curr_log_lik_var_post_omicron))
-  }
-  
   mle_combined <- optim(par = c(1.0, 0.1),
                         fn = minus_log_lik_combined,
                         method = 'L-BFGS-B',
@@ -250,31 +197,15 @@ df_inference <- Reduce('bind_rows', foreach(i_p_detect = 1:length(vec_p_detect_c
                      method = 'L-BFGS-B',
                      lower = c(R_min, R_min, k_min), upper = c(R_max, R_max, k_max))
   
-  mle_fully_split <- optim(par = c(1.0, 1.0, 0.1, 0.1),
-                           fn = minus_log_lik_fully_split,
-                           method = 'L-BFGS-B',
-                           lower = c(R_min, R_min, k_min, k_min),
-                           upper = c(R_max, R_max, k_max, k_max))
-  
   
   
   ## Compute likelihood ratio test p-value for split vs combined
   LRT_split_vs_combined <- as.numeric(2 * (mle_combined$value - mle_split$value))
   p_val_split_vs_combined <- 1.0 - vec_p_quantile[which(vec_quantile_function_chisq > LRT_split_vs_combined)[1]]
   
-  ## Compute likelihood ratio test p-value for fully split vs combined
-  LRT_fully_split_vs_combined <- as.numeric(2 * (mle_combined$value - mle_fully_split$value))
-  p_val_fully_split_vs_combined <- 1.0 - vec_p_quantile[which(vec_quantile_function_chisq_2 > LRT_fully_split_vs_combined)[1]]
-  
-  ## Compute likelihood ratio test p-value for fully split vs split
-  LRT_fully_split_vs_split <- as.numeric(2 * (mle_split$value - mle_fully_split$value))
-  p_val_fully_split_vs_split <- 1.0 - vec_p_quantile[which(vec_quantile_function_chisq > LRT_fully_split_vs_split)[1]]
-  
-  
   
   c('max_log_lik_combined' = - mle_combined$value,
     'max_log_lik_split' = - mle_split$value,
-    'max_log_lik_fully_split' = - mle_fully_split$value,
     
     'R_MLE_combined' = mle_combined$par[1],
     'k_MLE_combined' = mle_combined$par[2],
@@ -282,11 +213,6 @@ df_inference <- Reduce('bind_rows', foreach(i_p_detect = 1:length(vec_p_detect_c
     'R_var_MLE_split' = mle_split$par[1],
     'R_non_var_MLE_split' = mle_split$par[2],
     'k_MLE_split' = mle_split$par[3],
-    
-    'R_var_MLE_fully_split' = mle_fully_split$par[1],
-    'R_non_var_MLE_fully_split' = mle_fully_split$par[2],
-    'k_var_MLE_fully_split' = mle_fully_split$par[3],
-    'k_non_var_MLE_fully_split' = mle_fully_split$par[4],
     
     'LRT_split_vs_combined' = LRT_split_vs_combined,
     'p_val_split_vs_combined' = p_val_split_vs_combined,
