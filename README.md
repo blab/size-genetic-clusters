@@ -26,7 +26,10 @@ In the script **contribution_largest_transmission_event.R**, we perform a simula
 The script **sim_study.R** enables for user-defined values of the reproduction number R, the dispersion parameter k, the proportion of infections sequenced and the probability that transmission occurs before mutation (i) to generate synthetic cluster data and (ii) run our inference framework on these synthetic data. The script **reproduce_sim_study_figure.R** takes as input a dataframe with the results of the extensive simulation study we performed and produces figures to compare the true and estimated parameter values. 
 
 **Conditional on cluster extinction**
+The script **sim_study_conditional_extinction.R** enables for user-defined values of the reproduction number R, the dispersion parameter k, the proportion of infections sequenced and the probability that transmission occurs before mutation (i) to generate synthetic cluster data and (ii) run our inference framework on these synthetic data conditional on clusters having gone extinct. The script **reproduce_sim_study_cond_extinction_figure.R** takes as input a dataframe with the results of the extensive simulation study we performed and produces figures to compare the true and estimated parameter values. 
 
+### Simulation study evaluating our transmission advantage statistical framework
+The script **sim_study_trans_adv.R** enables for user-defined values of the reproduction number of the non-variant, the transmission advantage and the dispersion parameter (i) to generate synthetic cluster data for both the variant and the non-variant and (ii) run our transmission advantage inference framework on this simulated dataset.
 
 ### Empirical estimation of the probability that transmission occurs before mutation
 
@@ -38,9 +41,6 @@ The following scripts can be used to reproduce the analysis of:
 - MERS sequences (**mers.R**)
 - Measles sequences from the 2017-2018 Italian outbreak in the Veneto province (**measles.R**)
 - SARS-CoV-2 sequences in New-Zealand  (**ncov_NZ.R**)
+- SARS-CoV-2 variants in Washington state, US (**ncov_WA.R**)
 
 These scripts only use as input the distribution of clusters of identical sequences. To access the raw data, please refer yourselves to the references indicated in the manuscript. To facilitate the application of this method to other datasets, we provide the code developped to generate the size distribution of clusters of identical sequences from an alignment (**get_cluster_distrib_from_fasta.R**). The use of this code is illustrated for an arbitrary fasta file.  
-
-### Simulation study evaluating our transmission advantage statistical framework
-
-### Application to SARS-CoV-2 data in Washington state
