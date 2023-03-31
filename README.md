@@ -19,11 +19,13 @@ cd scripts/
 ## Generate the size distribution of clusters of identical sequences from an alignment. 
 # First argument: file path to the user-defined alignment
 # Second argument: file path to save the cluster size distribution
+
 Rscript ./get_cluster_distrib_from_fasta.R \
     "../data/synthetic-fasta.fasta" "../results/out_path_clust_size_distrib.rds"
 
 # Note: This script also contains plotting functions to visualize the cluster size distribution.
-
+```
+```bash
 ## Run the inference framework on the generated size distribution of clusters of identical sequences
 # First argument: file path of the cluster size distribution
 # Second argument: value for the probability p that transmission occurs before mutation
