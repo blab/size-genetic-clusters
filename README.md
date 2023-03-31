@@ -9,9 +9,9 @@ Cécile Tran-Kiem<sup>1</sup>, Trevor Bedford <sup>1,2</sup>
 
 Quantifying transmission intensity and heterogeneity is crucial to ascertain the threat posed by infectious diseases and inform the design of interventions. Methods that jointly estimate the reproduction number R and the dispersion parameter k have however mainly remained limited to the analysis of epidemiological clusters or contact tracing data, whose collection often proves difficult. Here, we show that clusters of identical sequences are imprinted by the pathogen offspring distribution, and we derive an analytical formula for the distribution of the size of these clusters. We develop and evaluate a novel inference framework to jointly estimate the reproduction number and the dispersion parameter from the size distribution of clusters of identical sequences. We then illustrate its application across a range of epidemiological situations. Finally, we develop a hypothesis testing framework relying on clusters of identical sequences to determine whether a given pathogen genetic subpopulation is associated with an increased or reduced transmissibility. Our work provides new tools to estimate the reproduction number and transmission heterogeneity from pathogen sequences without requiring building a phylogenetic tree, making it thus easily scalable to large pathogen genome datasets. 
 
-## Estimation of R and k from a user defined
+## Estimating R and k from user data
 
-To facilitate the application of this method to other datasets, we provide the code developped to generate the size distribution of clusters of identical sequences from an alignment. The use of this code is illustrated for an arbitrary fasta file. 
+To facilitate the application of this method to other datasets, we provide the code developped (i) to generate the size distribution of clusters of identical sequences from an alignment and (ii) to estimate R and k from the generated cluster size distribtion. We illustrate how this may be done starting from an arbitrary FASTA alignment. 
 
 ```bash
 cd scripts/
@@ -38,8 +38,6 @@ Rscript ./run_inference_from_distrib.R \
 ## Overview
 
 This repository contains code and data associated with the above preprint.
-
-
 
 ### Exploring the size distribution of clusters of identical sequences
 
