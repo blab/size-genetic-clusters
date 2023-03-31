@@ -39,8 +39,8 @@ The script [**draw_proba_transmission_before_mutation.R**](https://github.com/bl
 
 The following scripts can be used to reproduce the analysis of:
 - MERS sequences ([**mers.R**](https://github.com/blab/size-genetic-clusters/blob/main/scripts/mers.R))
-- Measles sequences from the 2017-2018 Italian outbreak in the Veneto province ([**measles.R**]((https://github.com/blab/size-genetic-clusters/blob/main/scripts/measles.R)))
-- SARS-CoV-2 sequences in New-Zealand  ([**ncov_NZ.R**]((https://github.com/blab/size-genetic-clusters/blob/main/scripts/ncov_NZ.R)))
-- SARS-CoV-2 variants in Washington state, US ([**ncov_WA.R**]((https://github.com/blab/size-genetic-clusters/blob/main/scripts/ncov_WA.R)))
+- Measles sequences from the 2017-2018 Italian outbreak in the Veneto province ([**measles.R**](https://github.com/blab/size-genetic-clusters/blob/main/scripts/measles.R))
+- SARS-CoV-2 sequences in New-Zealand  ([**ncov_NZ.R**](https://github.com/blab/size-genetic-clusters/blob/main/scripts/ncov_NZ.R))
+- SARS-CoV-2 variants in Washington state, US ([**ncov_WA.R**](https://github.com/blab/size-genetic-clusters/blob/main/scripts/ncov_WA.R))
 
 These scripts only use as input the distribution of clusters of identical sequences. To access the raw data, please refer yourselves to the references indicated in the manuscript. To facilitate the application of this method to other datasets, we provide the code developped to generate the size distribution of clusters of identical sequences from an alignment (**get_cluster_distrib_from_fasta.R**). The use of this code is illustrated for an arbitrary fasta file.  
