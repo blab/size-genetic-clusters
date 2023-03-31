@@ -9,9 +9,37 @@ Cécile Tran-Kiem<sup>1</sup>, Trevor Bedford <sup>1,2</sup>
 
 Quantifying transmission intensity and heterogeneity is crucial to ascertain the threat posed by infectious diseases and inform the design of interventions. Methods that jointly estimate the reproduction number R and the dispersion parameter k have however mainly remained limited to the analysis of epidemiological clusters or contact tracing data, whose collection often proves difficult. Here, we show that clusters of identical sequences are imprinted by the pathogen offspring distribution, and we derive an analytical formula for the distribution of the size of these clusters. We develop and evaluate a novel inference framework to jointly estimate the reproduction number and the dispersion parameter from the size distribution of clusters of identical sequences. We then illustrate its application across a range of epidemiological situations. Finally, we develop a hypothesis testing framework relying on clusters of identical sequences to determine whether a given pathogen genetic subpopulation is associated with an increased or reduced transmissibility. Our work provides new tools to estimate the reproduction number and transmission heterogeneity from pathogen sequences without requiring building a phylogenetic tree, making it thus easily scalable to large pathogen genome datasets. 
 
+## Estimation of R and k from a user defined
+
+To facilitate the application of this method to other datasets, we provide the code developped to generate the size distribution of clusters of identical sequences from an alignment. The use of this code is illustrated for an arbitrary fasta file. 
+
+```bash
+cd scripts/
+
+## Generate the size distribution of clusters of identical sequences from an alignment. 
+# First argument: file path to the user-defined alignment
+# Second argument: file path to save the cluster size distribution
+Rscript ./get_cluster_distrib_from_fasta.R \
+    "../data/synthetic-fasta.fasta" "../results/out_path_clust_size_distrib.rds"
+
+# Note: This script also contains plotting functions to visualize the cluster size distribution.
+
+## Run the inference framework on the generated size distribution of clusters of identical sequences
+# First argument: file path of the cluster size distribution
+# Second argument: value for the probability p that transmission occurs before mutation
+# Third argument: value for the fraction of infections sequenced
+# Fourth argument: 1 if confidence intervals are computed. 0 otherwise. This is generally the most computationally intensive part.
+# Fifth argument: file path (csv) to save the results of the inference
+
+Rscript ./run_inference_from_distrib.R \
+    "../results/out_path_clust_size_distrib.rds" 0.8 0.1 0 "../results/out_path_res_inference.csv"
+```
+
 ## Overview
 
 This repository contains code and data associated with the above preprint.
+
+
 
 ### Exploring the size distribution of clusters of identical sequences
 
@@ -43,4 +71,4 @@ The following scripts can be used to reproduce the analysis of:
 - SARS-CoV-2 sequences in New-Zealand  ([**ncov_NZ.R**](https://github.com/blab/size-genetic-clusters/blob/main/scripts/ncov_NZ.R))
 - SARS-CoV-2 variants in Washington state, US ([**ncov_WA.R**](https://github.com/blab/size-genetic-clusters/blob/main/scripts/ncov_WA.R))
 
-These scripts only use as input the distribution of clusters of identical sequences. To access the raw data, please refer yourselves to the references indicated in the manuscript. To facilitate the application of this method to other datasets, we provide the code developped to generate the size distribution of clusters of identical sequences from an alignment (**get_cluster_distrib_from_fasta.R**). The use of this code is illustrated for an arbitrary fasta file.  
+These scripts only use as input the distribution of clusters of identical sequences. To access the raw data, please refer yourselves to the references indicated in the manuscript.
