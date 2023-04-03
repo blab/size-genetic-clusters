@@ -19,9 +19,10 @@ cd scripts/
 ## Generate the size distribution of clusters of identical sequences from an alignment. 
 # First argument: file path to the user-defined alignment
 # Second argument: file path to save the cluster size distribution
+# Third argument: 1 if the cluster size distribution is also to be saved in a csv format. 0 otherwise. 
 
 Rscript ./get_cluster_distrib_from_fasta.R \
-    "../data/synthetic-fasta.fasta" "../results/out_path_clust_size_distrib.rds"
+    "../data/synthetic-fasta.fasta" "../results/out_path_clust_size_distrib.rds" 1
 
 # Note: This script also contains plotting functions to visualize the cluster size distribution.
 ```

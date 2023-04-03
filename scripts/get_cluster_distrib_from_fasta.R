@@ -8,6 +8,11 @@ source('utils_cluster_alloc.R')
 args <- commandArgs(trailingOnly = T)
 input_file <- as.character(args[1])
 output_file <- as.character(args[2])
+save_csv <- as.logical(as.numeric(args[3]))
+
+if(save_csv){
+  output_file_csv <- paste0(substr(output_file, start = 1, stop = nchar(output_file) - 4), '.csv')
+}
 
 ## Load alignment
 sequence_data <- read.FASTA(input_file)
@@ -18,6 +23,10 @@ dist_mat <- get_dist_mat(sequence_data)
 ## Compute clusters of identical sequences
 cluster_alloc <- get_identical_clusters_from_dist_mat(dist_mat)
 saveRDS(cluster_alloc, output_file)
+
+if(save_csv){
+  write.csv(cluster_alloc$df_size_distrib, output_file_csv)
+}
 
 ## This function returns a list of 2 objects:
 
