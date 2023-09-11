@@ -33,6 +33,16 @@ Rscript ./get_cluster_distrib_from_fasta.R \
     "../data/synthetic-fasta.fasta" "../results/out_path_clust_size_distrib.rds" 1
 
 # Note: This script also contains plotting functions to visualize the cluster size distribution.
+
+## When time information are available for the sequence, it is possible de get the size distribution of clusters of identical sequences from an alignment as well as the timing at which these clusters arise using:
+# First argument: file path to the user-defined alignment
+# Second argument: file path to the user-defined metadata. The metadata should be a csv file with a column "strain" containing the strain names (matching those found in the alignment) and a column "date" containing the sequence collection dta (format YYYY-MM-DD).
+# Third argument: file path to save the cluster size distribution
+# Fourth argument: 1 if the cluster size distribution is also to be saved in a csv format. 0 otherwise. 
+
+Rscript ./get_cluster_distrib_from_fasta_with_dates.R \
+    "../data/synthetic-fasta.fasta" "../data/synthetic-metadata.csv" "../results/out_path_clust_size_distrib.rds" 1
+
 ```
 ```bash
 ## Run the inference framework on the generated size distribution of clusters of identical sequences
