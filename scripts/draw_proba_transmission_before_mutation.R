@@ -80,36 +80,14 @@ df_p_trans_before_mut <- Reduce('bind_rows', lapply(1:length(list_sim_pathogens)
   group_by(pathogen) %>% 
   mutate(lower_p_trans_before_mut = min(p_trans_before_mut_upper_GT, p_trans_before_mut_upper_mut_rate, na.rm = T),
          upper_p_trans_before_mut = max(p_trans_before_mut_lower_GT, p_trans_before_mut_lower_mut_rate, na.rm = T))
+saveRDS(df_p_trans_before_mut, '../results/df_p_trans_before_mut_with_uncertainty.rds')
 
+## Display the different estimates
 breaks_p_trans_before_mut <- seq(0., 1., 0.2)
 breaks_R_to_plot <- c(1., 1.25, 1.5, 2.0, 2.5, 5.0)
 corr_break_R <- 1./breaks_R_to_plot
                   
-plt_trans_before_mut <- df_p_trans_before_mut %>% 
-  left_join(df_pathogens, by = 'pathogen') %>% 
-  ggplot(aes(x = mean_GT*subs_per_day, y = p_trans_before_mut,
-             colour = as.factor(pathogen))) +
-  geom_point(size = 1.0) +
-  geom_linerange(aes(ymin = lower_p_trans_before_mut, ymax = upper_p_trans_before_mut)) +
-  geom_text_repel(aes(label = pathogen)) +
-  scale_x_continuous(name = 'Expected number of mutations during 1 generation',
-                     limits = c(0.2, NA),
-                     breaks = c(0.2, 0.3, 0.4, 0.5, 0.7, 1.0, 1.5),
-                     trans = 'log10') +
-  scale_y_continuous(limits = c(0., 1.), breaks = breaks_p_trans_before_mut,
-                     expand = expansion(mult = c(0., 0.)),
-                     name = 'Probability p that transmission\noccurs before mutation',
-                     sec.axis = sec_axis(~ . * 1., name = "Reproduction number threshold", 
-                                         breaks = corr_break_R,
-                                         labels = breaks_R_to_plot)
-  ) +
-  scale_colour_manual(values = c(brewer.pal(12, 'Paired')[-11], 'black')) +
-  theme_classic() +
-  theme(axis.text = element_text(size = 12),
-        axis.title = element_text(size = 12),
-        legend.position = 'none')
-
-plt_test <- df_p_trans_before_mut %>% 
+plt_p_uncertainty <- df_p_trans_before_mut %>% 
   left_join(df_pathogens, by = 'pathogen') %>% 
   mutate(expected_nb_mut_gen = mean_GT*subs_per_day) %>% 
   ggplot(aes(x = expected_nb_mut_gen,
@@ -142,14 +120,14 @@ plt_test <- df_p_trans_before_mut %>%
   facet_wrap(. ~ (expected_nb_mut_gen >= 1.0), scales = 'free_x') +
   force_panelsizes(cols = c(1.0, 0.15))
 
-plt_test
+plt_p_uncertainty
 
-pdf('../figures/plot_proba_trans_before_mut.pdf',
-    height = 3, width = 7)
-plot(plt_test)
-dev.off()
+# pdf('../figures/plot_proba_trans_before_mut.pdf',
+#     height = 3, width = 7)
+# plot(plt_p_uncertainty)
+# dev.off()
 
-saveRDS(df_p_trans_before_mut, '../results/df_p_trans_before_mut_with_uncertainty.rds')
+
 
 
 df_p_trans_before_mut %>% 
@@ -164,8 +142,7 @@ df_p_trans_before_mut %>%
          p_trans_before_mut_lower_GT = round(p_trans_before_mut_lower_GT, 2),
          p_trans_before_mut_upper_GT = round(p_trans_before_mut_upper_GT, 2),
          p_trans_before_mut_lower_mut_rate = round(p_trans_before_mut_lower_mut_rate, 2),
-         p_trans_before_mut_upper_mut_rate = round(p_trans_before_mut_upper_mut_rate, 2)) %>% 
-  View()
+         p_trans_before_mut_upper_mut_rate = round(p_trans_before_mut_upper_mut_rate, 2))
 
 
 
@@ -177,7 +154,8 @@ list_plots <- lapply(1:length(list_sim_pathogens), FUN = function(i_pathogen){
                       plot_title = df_p_trans_before_mut$pathogen[i_pathogen],
                       plot_subtitle = paste0('p = ',
                                              round(df_p_trans_before_mut$p_trans_before_mut[i_pathogen], 2) * 100,
-                                             '%'))
+                                             '%'),
+                      xmax = 101)
 })
 panel_proba_sim <- ggarrange(plotlist = list_plots,
                              ncol = 3, nrow = 4,
@@ -185,3 +163,8 @@ panel_proba_sim <- ggarrange(plotlist = list_plots,
 
 
 plot(panel_proba_sim)
+
+png('../figures/panel_sim_proba_all_pathogens.png',
+    height = 9, width = 7.6, res = 350, units = 'in')
+plot(panel_proba_sim)
+dev.off()
