@@ -80,7 +80,8 @@ df_p_trans_before_mut <- Reduce('bind_rows', lapply(1:length(list_sim_pathogens)
   group_by(pathogen) %>% 
   mutate(lower_p_trans_before_mut = min(p_trans_before_mut_upper_GT, p_trans_before_mut_upper_mut_rate, na.rm = T),
          upper_p_trans_before_mut = max(p_trans_before_mut_lower_GT, p_trans_before_mut_lower_mut_rate, na.rm = T))
-saveRDS(df_p_trans_before_mut, '../results/df_p_trans_before_mut_with_uncertainty.rds')
+
+#saveRDS(df_p_trans_before_mut, '../results/df_p_trans_before_mut_with_uncertainty.rds')
 
 ## Display the different estimates
 breaks_p_trans_before_mut <- seq(0., 1., 0.2)
@@ -120,16 +121,11 @@ plt_p_uncertainty <- df_p_trans_before_mut %>%
   facet_wrap(. ~ (expected_nb_mut_gen >= 1.0), scales = 'free_x') +
   force_panelsizes(cols = c(1.0, 0.15))
 
-plt_p_uncertainty
 
-# pdf('../figures/plot_proba_trans_before_mut.pdf',
-#     height = 3, width = 7)
-# plot(plt_p_uncertainty)
-# dev.off()
+plot(plt_p_uncertainty)
 
 
-
-
+### Display results
 df_p_trans_before_mut %>% 
   left_join(df_pathogens, by = 'pathogen') %>% 
   mutate(pathogen = factor(pathogen, levels = c('MERS', 'Measles', 'Ebola', 'Zika', 'Mpox', 
@@ -143,8 +139,6 @@ df_p_trans_before_mut %>%
          p_trans_before_mut_upper_GT = round(p_trans_before_mut_upper_GT, 2),
          p_trans_before_mut_lower_mut_rate = round(p_trans_before_mut_lower_mut_rate, 2),
          p_trans_before_mut_upper_mut_rate = round(p_trans_before_mut_upper_mut_rate, 2))
-
-
 
 
 
@@ -164,7 +158,7 @@ panel_proba_sim <- ggarrange(plotlist = list_plots,
 
 plot(panel_proba_sim)
 
-png('../figures/panel_sim_proba_all_pathogens.png',
-    height = 9, width = 7.6, res = 350, units = 'in')
-plot(panel_proba_sim)
-dev.off()
+# png('../figures/supplementary_figures/figure_s15_panel_sim_proba_all_pathogens.png',
+#     height = 9, width = 7.6, res = 350, units = 'in')
+# plot(panel_proba_sim)
+# dev.off()
