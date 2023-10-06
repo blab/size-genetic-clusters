@@ -109,3 +109,16 @@ plt_sensitivity_p_detect_cases <- df_inference %>%
   facet_grid(variant_char ~ p_detect_cases)
 
 plot(plt_sensitivity_p_detect_cases)
+
+
+
+
+## Check p-value for 45 days and 50% of case detection
+df_inference %>% 
+  filter(i_day == 45, p_detect_cases == 0.5) %>% 
+  mutate(order_magnitude = ceiling(- log10(p_val_split_vs_combined)),
+         label_p_val = case_when(p_val_split_vs_combined == 0.00000 ~ '< 1e-5',
+                                 TRUE ~ as.character(round(p_val_split_vs_combined, order_magnitude + 1)))) %>% 
+  ggplot(aes(x = p_detect_cases_char, y = variant_char)) +
+  geom_text(aes(label = label_p_val)) +
+  theme_classic()
