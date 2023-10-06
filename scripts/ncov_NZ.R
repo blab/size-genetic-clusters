@@ -8,12 +8,19 @@ source('utils_cluster_alloc.R')
 ## Input files
 file_cluster_alloc <- '../data/ncov_NZ/df_cluster_by_period_NZ.rds'
 file_prop_cases_sequenced_per_period <- '../data/ncov_NZ/df_prop_sequenced_per_period.rds'
-file_proba_trans_before_mut_post_omicron <- '../results/proba_trans_before_mut/p_ncov_post_omicron.txt'
-file_proba_trans_before_mut_pre_omicron <- '../results/proba_trans_before_mut/p_ncov_pre_omicron.txt'
+file_proba_trans_before_mut <- '../results/proba_trans_before_mut/df_p_trans_before_mut_with_uncertainty.rds'
 
 ## Probability that transmission occurs before mutation
-p_trans_before_mut_pre_omicron <- as.numeric(read.table(file_proba_trans_before_mut_pre_omicron))
-p_trans_before_mut_post_omicron <-as.numeric(read.table(file_proba_trans_before_mut_post_omicron))
+p_trans_before_mut_pre_omicron <- readRDS(file_proba_trans_before_mut) %>% 
+  ungroup() %>% 
+  filter(pathogen == 'SARS-CoV-2 (pre-Omicron)') %>% 
+  select(p_trans_before_mut) %>%
+  as.numeric()
+p_trans_before_mut_post_omicron <- readRDS(file_proba_trans_before_mut) %>% 
+  ungroup() %>% 
+  filter(pathogen == 'SARS-CoV-2 (Omicron)') %>% 
+  select(p_trans_before_mut) %>%
+  as.numeric()
 
 ## Cluster size distribution
 df_clusters_by_period <- readRDS(file_cluster_alloc)

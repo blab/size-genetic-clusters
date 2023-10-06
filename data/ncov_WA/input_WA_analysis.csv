@@ -1,9 +1,0 @@
-﻿variant,date_beginning_window,date_end_window,corresponding_nextstrain_clades
-Alpha,2021-03-01,2021-04-01,"20I (Alpha, V1)"
-Delta,2021-06-01,2021-07-01,21A (Delta) / 21I (Delta) / 21J (Delta)
-Omicron_BA.1,2021-11-15,2021-12-15,21K (Omicron)
-Omicron_BA.2,2022-02-01,2022-03-01,21L (Omicron)
-Omicron_BA.45,2022-05-01,2022-05-15,22A (Omicron) / 22B (Omicron)
-Epsilon,2021-01-01,2021-02-15,21C (Epsilon)
-20G,2020-07-15,2020-09-15,20G
-D614G,2020-04-01,2020-06-01,19A / 19B / 19C

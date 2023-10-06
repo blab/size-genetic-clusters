@@ -6,7 +6,7 @@ library(RColorBrewer)
 df_inference <- readRDS('../results/sim_study/df_inference_all.rds')
 
 ## Figure 2A
-plt_R_inference <- df_CI_all %>%
+plt_R_inference <- df_inference %>%
   filter(k == 0.1, param == 'R',
          max_cluster_size_sim == 10000,
          max_cluster_size_inference == 10000,
@@ -46,7 +46,7 @@ plt_R_inference <- df_CI_all %>%
   theme(panel.grid.minor = element_blank())
 
 ## Figure 2B
-plt_k_inference <- df_CI_all %>%
+plt_k_inference <- df_inference %>%
   filter(R0 == 1.0, param == 'k',
          max_cluster_size_sim == 10000,
          max_cluster_size_inference == 10000,

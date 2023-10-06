@@ -1,0 +1,8 @@
+"variant","corresponding_nextstrain_clades","id_variant","date_first_sequencing","date_reached_10_seq"
+"Alpha","20I (Alpha, V1)",1,2020-11-23,2021-01-18
+"Delta","21A (Delta) / 21I (Delta) / 21J (Delta)",2,2021-04-03,2021-04-12
+"Omicron_BA.1","21K (Omicron)",3,2021-09-29,2021-12-01
+"Omicron_BA.2","21L (Omicron)",4,2022-01-03,2022-01-12
+"Omicron_BA.45","22A (Omicron) / 22B (Omicron)",5,2022-04-15,2022-05-08
+"Epsilon","21C (Epsilon)",6,2020-11-17,2020-12-13
+"D614G","19A / 19B / 19C",7,2020-02-22,2020-03-10

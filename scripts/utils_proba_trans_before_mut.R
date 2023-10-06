@@ -28,7 +28,7 @@ compute_proba_transmission_before_mutation_rate_per_day <- function(n_sim,
 
 ## Script to plot the simulated time distributions obtained with one of the above functions
 
-plot_from_sim_proba <- function(sim_proba){
+plot_from_sim_proba <- function(sim_proba, plot_title, plot_subtitle, xmax = NA){
   col_mutation <- 'orange2'
   col_transmission <- 'darkslateblue'
   
@@ -50,7 +50,10 @@ plot_from_sim_proba <- function(sim_proba){
     scale_y_continuous(name = 'Probability',
                        expand = expansion(mult = c(0., 0.02))) +
     scale_x_continuous(name = 'Time (in days)',
-                       expand = expansion(mult = c(0.03, 0.05)))
+                       expand = expansion(mult = c(0.03, 0.05)),
+                       limits = c(NA, xmax)) +
+    ggtitle(label = plot_title, subtitle = plot_subtitle) +
+    theme(plot.title = element_text(size = 11))
   
   return(plt_sim)
 }
