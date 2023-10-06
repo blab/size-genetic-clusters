@@ -7,12 +7,16 @@ source('utils_cluster_alloc.R')
 
 ## Input files
 file_cluster_alloc <- '../data/measles/cluster_alloc_measles_pacenti.rds'
-file_proba_trans_before_mut <- '../results/proba_trans_before_mut/p_measles.txt'
+file_proba_trans_before_mut <- '../results/proba_trans_before_mut/df_p_trans_before_mut_with_uncertainty.rds'
 
 cluster_alloc <- readRDS(file_cluster_alloc)
 
 ## Probability that transmission occurs before mutation
-p_trans_before_mut <- as.numeric(read.table(file_proba_trans_before_mut))
+p_trans_before_mut <- readRDS(file_proba_trans_before_mut) %>% 
+  ungroup() %>% 
+  filter(pathogen == 'Measles') %>% 
+  select(p_trans_before_mut) %>%
+  as.numeric()
 
 ## Scenario for the proportion of infection sequenced
 n_sequences <- sum(cluster_alloc$df_size_distrib$cluster_size * cluster_alloc$df_size_distrib$count)
