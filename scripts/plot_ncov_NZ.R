@@ -2,7 +2,7 @@ library(tidyverse)
 library(ggpubr)
 
 ## Load inference results
-df_inference <- readRDS('../results/ncov_NZ/df_inference_NZ_10000.rds') 
+df_inference <- readRDS('../results/ncov_NZ/df_inference_10000_central.rds')
 
 ## Dispersion parameter estimates
 plt_inference_k <- df_inference %>% 
@@ -94,7 +94,7 @@ plot(panel_NZ_zero_covid)
 
 
 ## Check the sensitivity of the estimates to max_cluster_size_inference (10,000 vs 50,000)
-df_inference_2 <- readRDS('../results/ncov_NZ/df_inference_NZ_50000.rds')
+df_inference_2 <- readRDS('../results/ncov_NZ/df_inference_50000_central.rds')
 df_inference %>% 
   left_join(df_inference_2, by = c('param', 'p_detect')) %>% 
   mutate(is_same = (lower_95.x == lower_95.y)) %>% 
