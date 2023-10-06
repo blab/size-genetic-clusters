@@ -5,11 +5,11 @@ library(ggpubr)
 source('utils_cluster_alloc.R')
 
 ## MERS input files
-output_file_likelihood_CI_mers <- '../results/mers/df_inference_10000.rds'
+output_file_likelihood_CI_mers <- '../results/mers/df_inference_10000_central.rds'
 file_cluster_alloc_mers <- '../data/mers/cluster_alloc_mers.rds'
 
 ## Measles input files
-output_file_likelihood_CI_measles <- '../results/measles/df_inference_pacenti_10000.rds'
+output_file_likelihood_CI_measles <- '../results/measles/df_inference_pacenti_10000_central.rds'
 file_cluster_alloc_measles <- '../data/measles/cluster_alloc_measles_pacenti.rds'
 
 ## Loading files
@@ -129,12 +129,12 @@ plot(plt_mers_measles)
 ##### -> No impact here. 
 vec_max_cluster_size_inference <- c('10000', '50000', '1e+05')
 df_CI_mers <- Reduce('bind_rows', lapply(vec_max_cluster_size_inference, FUN = function(max_cluster_size_inference){
-  output_file_likelihood_CI_mers <- paste0('../results/mers/df_inference_', max_cluster_size_inference, '.rds')
+  output_file_likelihood_CI_mers <- paste0('../results/mers/df_inference_', max_cluster_size_inference, '_central.rds')
   readRDS(output_file_likelihood_CI_mers) %>% 
     mutate(max_cluster_size_inference = max_cluster_size_inference)
 }))
 df_CI_measles <- Reduce('bind_rows', lapply(vec_max_cluster_size_inference, FUN = function(max_cluster_size_inference){
-  output_file_likelihood_CI_measles <- paste0('../results/measles/df_inference_pacenti_', max_cluster_size_inference, '.rds')
+  output_file_likelihood_CI_measles <- paste0('../results/measles/df_inference_pacenti_', max_cluster_size_inference, '_central.rds')
   readRDS(output_file_likelihood_CI_measles) %>% 
     mutate(max_cluster_size_inference = max_cluster_size_inference)
 }))
