@@ -32,7 +32,6 @@ create_simulation_model <- function(mean_gen_time,
     }
     vec_recovery_times[n_pairs + 1] <- max(vec_recovery_times[1:n_pairs] + 1)
     
-    
     # Simulate the pairs
     sim <- simfixoutbreak(ID = 1:(n_pairs + 1),
                           inf.times = vec_infection_times,
@@ -41,7 +40,7 @@ create_simulation_model <- function(mean_gen_time,
                           mut.rate = mut_rate, glen = genome_length,
                           inoc.size = bottleneck_size,
                           imp.var = 25,
-                          samp.schedule = "random",
+                          samp.schedule = "individual",
                           samples.per.time = 1,
                           samp.freq = 1,
                           full = TRUE,
@@ -58,7 +57,6 @@ create_simulation_model <- function(mean_gen_time,
     )
   )
 }
-
 
 ## Define the characteristics of the scenario to be run
 inf_duration <- 6. # Infectious period duration in days 
@@ -79,20 +77,33 @@ model_sim <- create_simulation_model(mean_gen_time = mean_gen_time,
                                      bottleneck_size = bottleneck_size, Ne_equilibrium = Ne_equilibrium,
                                      output_freq = output_freq)
 
-## Run simulations in parallel
-n_pairs_per_sim <- 20
-n_rep <- 60 ## (Can reduce to decrease computing time)
-
-n_cores <- 4 # Number of threads used for multi-threading
+# Run simulations in parallel
+n_pairs_per_sim <- 80
+n_rep <- 8 ## (Can reduce to decrease computing time)
+n_cores <- 4 # Number of cores to used
 
 t0 <- Sys.time()
 cl <- makeForkCluster(n_cores)
 registerDoParallel(cl)
-df_SNPs_transm_pair <- foreach(i_rep = 1:n_rep, .combine = bind_rows, .packages = c('dplyr', 'tidyr', 'seedy')) %dopar% {
+
+df_wh_diversity <- foreach(i_rep = 1:n_rep, .combine = bind_rows, .packages = c('dplyr', 'tidyr', 'seedy')) %dopar% {
   set.seed(i_rep)
   sim <- model_sim$simulate_pairs(n_pairs_per_sim)
-  get_freq_donor_recepient(sim) %>% 
-    mutate(i_rep = i_rep)
+  
+  # Select sample at the time of recovery
+  df_last_sample <- sim$sampledata %>% 
+    as_tibble() %>% 
+    group_by(pID) %>% 
+    filter(sampletimes == max(sampletimes))
+  
+  Reduce('bind_rows', lapply(df_last_sample$pID, FUN = function(indiv_id){
+    curr_sample_id <- df_last_sample$sampleID[df_last_sample$pID == indiv_id]
+    wh_diversity <- meansnps(sim$obs.strain[[curr_sample_id]], sim$obs.freq[[curr_sample_id]], 
+                             sim$libr, sim$nuc, sim$librstrains)
+    tibble(indiv_id = indiv_id,
+           wh_diversity = wh_diversity, # The pairwise nucleotide diversity is not normalized by the genome length at this stage
+           i_rep = i_rep)
+  }))
 }
 stopCluster(cl)
 t1 <- Sys.time()
