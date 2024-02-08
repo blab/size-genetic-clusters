@@ -27,7 +27,6 @@ compute_proba_transmission_before_mutation_rate_per_day <- function(n_sim,
 }
 
 ## Script to plot the simulated time distributions obtained with one of the above functions
-
 plot_from_sim_proba <- function(sim_proba, plot_title, plot_subtitle, xmax = NA){
   col_mutation <- 'orange2'
   col_transmission <- 'darkslateblue'
@@ -41,11 +40,11 @@ plot_from_sim_proba <- function(sim_proba, plot_title, plot_subtitle, xmax = NA)
                    alpha= 0.5, binwidth = 1) +
     geom_histogram(aes(x = time_mut, 
                        y = after_stat(count / sum(count)),
-                       fill = 'Time to mutation'),
+                       fill = 'Time to substitution'),
                    alpha = 0.5, binwidth = 1) +
     theme_classic() +
     scale_fill_manual(name = '',
-                      breaks = c('Time to transmission', 'Time to mutation'),
+                      breaks = c('Time to transmission', 'Time to substitution'),
                       values = c(col_transmission, col_mutation)) +
     scale_y_continuous(name = 'Probability',
                        expand = expansion(mult = c(0., 0.02))) +

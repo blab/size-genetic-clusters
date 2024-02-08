@@ -64,7 +64,7 @@ create_simulation_model <- function(mean_gen_time,
 inf_duration <- 6. # Infectious period duration in days 
 bottleneck_size <- 1 # Bottleneck size
 
-n_generations_per_day <- 10 # Number of generations per time unit (day)
+n_generations_per_day <- 3 # Number of generations per time unit (day)
 mean_gen_time <- inf_duration * n_generations_per_day
 recovery_rate <- 1. / (inf_duration * n_generations_per_day) # Rate of recovery (per generation)
 av_delay_between_mutations <- 12. # Average delay between mutations (in days)
@@ -84,6 +84,8 @@ n_pairs_per_sim <- 20
 n_rep <- 60 ## (Can reduce to decrease computing time)
 
 n_cores <- 4 # Number of threads used for multi-threading
+
+t0 <- Sys.time()
 cl <- makeForkCluster(n_cores)
 registerDoParallel(cl)
 df_SNPs_transm_pair <- foreach(i_rep = 1:n_rep, .combine = bind_rows, .packages = c('dplyr', 'tidyr', 'seedy')) %dopar% {

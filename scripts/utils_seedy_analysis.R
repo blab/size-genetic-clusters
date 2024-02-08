@@ -55,3 +55,4 @@ get_freq_donor_recepient <- function(W){
   
   return(df_SNPs_transm_pair)
 }
+

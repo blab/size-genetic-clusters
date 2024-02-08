@@ -7,7 +7,7 @@
    width="850"
    height="615"
    viewBox="0 0 850 615"
-   sodipodi:docname="figure_2_review.svg"
+   sodipodi:docname="figure_2.svg"
    inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
    inkscape:export-filename="figure_2_review.png"
    inkscape:export-xdpi="350"
@@ -155,15 +155,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="1.2432572"
-     inkscape:cx="401.36505"
-     inkscape:cy="121.05299"
-     inkscape:window-width="1920"
-     inkscape:window-height="1027"
+     inkscape:zoom="1.24"
+     inkscape:cx="497.98387"
+     inkscape:cy="425.40323"
+     inkscape:window-width="1440"
+     inkscape:window-height="785"
      inkscape:window-x="9"
-     inkscape:window-y="41"
+     inkscape:window-y="25"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g4969"
+     inkscape:current-layer="g4967"
      showguides="false">
     <inkscape:page
        x="0"
@@ -2745,41 +2745,43 @@
            sodipodi:role="line"
            id="tspan6525">Estimated k</tspan></text>
       <path
-         d="m 506.324,34.383 h 123.57 v 73.199 h -123.57 z"
+         d="m 506.324,17.883 h 123.57 v 73.199 h -123.57 z"
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
          id="path6529" />
       <text
          xml:space="preserve"
-         transform="translate(511.80409,48.971558)"
          style="font-variant:normal;font-weight:normal;font-size:11px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
-         id="text6535"><tspan
-           x="0 7.3369141 11 17.117676 23.235352 29.353027 33.456112 36.512264 38.956112 45.073788 51.191463 54.247616 60.365292 63.421444 66.4776 68.921448 75.039124 77.754272 83.871948 89.371948 92.428101 94.871948 100.98962 107.1073"
-           y="0"
+         id="text6535"
+         x="511.80408"
+         y="32.471558"><tspan
+           x="511.80408 519.14099 522.80408 528.92175 535.03943 541.1571 545.26019 548.31635 550.76019 556.87787 562.99554 566.0517 572.16937 575.22552 578.28168 580.72552 586.8432 589.55835 595.67603 601.17603 604.23218 606.67603 612.7937 618.91138"
+           y="32.471558"
            sodipodi:role="line"
            id="tspan6531">Proportion of infections</tspan><tspan
-           x="0 5.5 11.617676 17.735352 23.853027 29.970703 36.088379 41.588379 47.706055"
-           y="11.88"
+           x="511.80408 517.30408 523.42175 529.53943 535.6571 541.77478 547.89246 553.39246 559.51013"
+           y="44.351559"
            sodipodi:role="line"
            id="tspan6533">sequenced</tspan></text>
       <path
-         d="m 520.445,73.141 2.641,4.562 h -5.274 z"
+         d="m 520.445,56.641 2.641,4.562 h -5.274 z"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
          id="path6537" />
       <path
-         d="m 518.492,93.461 c 0,-1.07 0.883,-1.949 1.953,-1.949 1.078,0 1.957,0.879 1.957,1.949 0,1.082 -0.879,1.961 -1.957,1.961 -1.07,0 -1.953,-0.879 -1.953,-1.961"
+         d="m 518.492,76.961 c 0,-1.07 0.883,-1.949 1.953,-1.949 1.078,0 1.957,0.879 1.957,1.949 0,1.082 -0.879,1.961 -1.957,1.961 -1.07,0 -1.953,-0.879 -1.953,-1.961"
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
          id="path6539" />
       <text
          xml:space="preserve"
-         transform="translate(534.56409,79.421557)"
          style="font-variant:normal;font-weight:normal;font-size:9px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
-         id="text6545"><tspan
-           x="0 5.0053711 7.5058594"
-           y="0"
+         id="text6545"
+         x="534.56409"
+         y="62.921555"><tspan
+           x="534.56409 539.56946 542.06995"
+           y="62.921555"
            sodipodi:role="line"
            id="tspan6541">0.1</tspan><tspan
-           x="0 5.0053711 7.5058594"
-           y="17.280001"
+           x="534.56409 539.56946 542.06995"
+           y="80.201561"
            sodipodi:role="line"
            id="tspan6543">0.5</tspan></text>
       <path
@@ -3132,7 +3134,7 @@
     </g>
     <g
        id="g7237"
-       transform="translate(0.84613697,4.5)">
+       transform="translate(0.84613697,-12)">
       <text
          xml:space="preserve"
          transform="translate(512.03505,115.9574)"
@@ -3142,14 +3144,18 @@
            y="0"
            sodipodi:role="line"
            id="tspan7455">Probability p that</tspan><tspan
-           x="0 3.0561523 6.7192383 12.836914 18.95459 24.45459 33.617676 36.061523 41.561523 47.061523 49.505371 55.623047 61.740723 64.796875 70.914551 76.414551 81.914551 88.032227 91.695312"
-           y="11.88"
+           x="0"
            sodipodi:role="line"
-           id="tspan7457">transmission occurs</tspan><tspan
-           x="0 6.1176758 12.235352 15.291504 21.40918 25.072266 31.189941 34.246094 43.40918 49.526855 52.583008 58.700684 61.756836 64.200684 70.318359 76.436035"
-           y="25.629999"
+           id="tspan7459"
+           y="13.75">an infector and an</tspan><tspan
+           x="0"
            sodipodi:role="line"
-           id="tspan7459">before mutation </tspan></text>
+           y="27.5"
+           id="tspan3730">infectee have the same</tspan><tspan
+           x="0"
+           sodipodi:role="line"
+           y="41.25"
+           id="tspan3732">consensus sequence </tspan></text>
     </g>
     <g
        id="g1962"
@@ -4010,13 +4016,15 @@
          transform="matrix(1,0,0,-1,62.377219,455.21984)">
         <text
            xml:space="preserve"
-           transform="matrix(1,0,0,-1,120.5,8.12)"
+           transform="scale(1,-1)"
            style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
-           id="text12413"><tspan
-             x="0 8.0039997 14.004 20.676001 27.348 33.348 36.683998 43.355999 50.028 53.363998 59.916 66.587997 76.584 83.255997 89.928001 93.924004 97.260002 103.932 107.268 110.604 120.48 127.152 130.48801 137.16 140.496 143.16 149.832 156.504 162.504 165.84 172.51199 179.18401 183.36 186.024 192.696 199.368 202.70399 209.37601 212.71201 219.384 226.056 232.728 239.39999 243.276 249.948 253.284 255.948 262.62"
-             y="0"
+           id="text12413"
+           x="111.5"
+           y="-8.1199999"><tspan
+             x="111.5 119.504 125.504 132.17599 138.84799 144.84799 148.18399 154.856 161.528 164.864 171.416 178.088 188.084 194.756 201.42799 205.424 208.75999 215.43199 218.76799"
+             y="-8.1199999"
              sodipodi:role="line"
-             id="tspan12411">Expected number of mutations during 1 generation</tspan></text>
+             id="tspan12411">Expected number of substitutions during 1 generation</tspan></text>
       </g>
       <g
          id="g12419"
@@ -4032,13 +4040,15 @@
              id="tspan12421">Probability p that transmission</tspan></text>
         <text
            xml:space="preserve"
-           transform="matrix(0,1,1,0,27.06,62.31)"
+           transform="matrix(0,1,1,0,0,0)"
            style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
-           id="text12427"><tspan
-             x="0 6.6719999 12.672 18.672001 25.344 29.34 35.34 38.675999 45.348 52.02 54.995998 61.667999 65.664001 72.335999 75.671997 85.547997 92.220001 95.556 102.228 105.564 108.228 114.9"
-             y="0"
+           id="text12427"
+           x="56.310001"
+           y="27.059999"><tspan
+             x="56.310001 62.982002 68.982002 74.982002 81.653999 85.650002 91.650002 94.986 101.658 108.33 111.306 117.978 121.974 128.646"
+             y="27.059999"
              sodipodi:role="line"
-             id="tspan12425">occurs before mutation</tspan></text>
+             id="tspan12425">occurs before substitution</tspan></text>
       </g>
       <g
          id="g12433"
